@@ -135,3 +135,13 @@ ISR (SPI_STC_vect) {
 
 void loop() {
 }
+
+# SPI COMMUNICATION (1 MASTER 2 SLAVE)
+connection
+D11 to D11 (MOSI)
+D12 to D12 (MISO)
+D13 to D13  (SCK)
+D9 to D9 of slave 2 (SS)
+D10 to D10 of slave 1 (SS)
+5V to VIN
+GND to GND
