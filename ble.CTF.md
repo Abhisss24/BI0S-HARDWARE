@@ -8,7 +8,10 @@ We have to find the value stored in the handle 0x002e. so i used the command "ga
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "d205303e099ceff44835"|xxd -ps)
 # 3rd
 In this i find the text value in the handle 0x0030 and that is 4d 44 35 20 6f 66 20 44 65 76 69 63 65 20 4e 61 6d 65. I converted it to the ASCII text that is "MD5 of Device Name".
-I find the device name that is "BLECTF" convert into the MD5 that is 5cd56d74049ae40f442ece036c6f4f06. Then i entered gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "5cd56d74049ae40f442ece036c6f4f06"|xxd -ps) but it shows error because the string must be in 20 characters . Then i entered "gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "5cd56d74049ae40f442e"|xxd -ps)". 
+I find the device name that is "BLECTF" convert into the MD5 that is 5cd56d74049ae40f442ece036c6f4f06.
+Then i entered gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $ (echo -n "5cd56d74049ae40f442ece036c6f4f06"|xxd -ps) but it shows error because 
+the string must be in 20 characters .
+Then i entered "gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $ (echo -n "5cd56d74049ae40f442e"|xxd -ps)". 
 # 4th
 GATT (Generic Attribute Profile) defines how data is organized and exchanged between devices.
 extra attributes are:
