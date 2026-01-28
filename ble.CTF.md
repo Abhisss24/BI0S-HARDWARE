@@ -13,30 +13,9 @@ Then i entered gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $ (ec
 the string must be in 20 characters .
 Then i entered "gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $ (echo -n "5cd56d74049ae40f442e"|xxd -ps)". 
 # 4th
-GATT (Generic Attribute Profile) defines how data is organized and exchanged between devices.
-extra attributes are:
-Device information (name, manufacturer, model)
-Sensor data (temperature, heart rate, battery level)
-Configuration and control values
-gatttool -b EC:E3:34:1C:0D:D2 -I
-then i entered connect, it replies Connection successful.
-then I entered primary i showed 3 different handle 
-0x1801 – Generic Attribute service
-0x1800 – Generic Access service
-0x00FF – Custom service
-then i entered the gatttool -b EC:E3:34:1C:0D:D2 --characteristics
-it returns 
-handle = 0x0002, char properties = 0x20, char value handle = 0x0003, uuid = 00002a05-0000-1000-8000-00805f9b34fb
 handle = 0x0015, char properties = 0x02, char value handle = 0x0016, uuid = 00002a00-0000-1000-8000-00805f9b34fb
-handle = 0x0017, char properties = 0x02, char value handle = 0x0018, uuid = 00002a01-0000-1000-8000-00805f9b34fb
-handle = 0x0019, char properties = 0x02, char value handle = 0x001a, uuid = 00002aa6-0000-1000-8000-00805f9b34fb
-handle = 0x0029, char properties = 0x02, char value handle = 0x002a, uuid = 0000ff01-0000-1000-8000-00805f9b34fb
-handle = 0x002b, char properties = 0x0a, char value handle = 0x002c, uuid = 0000ff02-0000-1000-8000-00805f9b34fb
-handle = 0x002d, char properties = 0x02, char value handle = 0x002e, uuid = 0000ff03-0000-1000-8000-00805f9b34fb
-....
 Device Name is assigned UUID 0x2a00 
 from the response , uuid = 00002a00
-handle = 0x0015, char properties = 0x02, char value handle = 0x0016, uuid = 00002a00-0000-1000-8000-00805f9b34fb 
 then read that handle 0x0016
 gatttool -b EC:E3:34:1C:0D:D2 --char-read -a 0x0016
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "2b00042f7481c7b056c4"|xxd -ps)
@@ -94,9 +73,7 @@ it returned 36 66 66 63 64 32 31 34 66 66 65 62 64 63 30 64 30 36 39 65 -->6ffcd
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "6ffcd214ffebdc0d069e"|xxd -ps)
 
 # 11th
-Keeps the connection open and waits for:
-notifications
-indications
+Keeps the connection open and waits for: notifications indications
 gatttool -b EC:E3:34:1C:0D:D2 -a 0x40 --char-write-req -n 69 --listen
 Notification handle = 0x0040 value: 35 65 63 33 37 37 32 62 63 64 30 30 63 66 30 36 64 38 65 62 --> 5ec3772bcd00cf06d8eb
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "5ec3772bcd00cf06d8eb"|xxd -ps)
@@ -112,9 +89,6 @@ gatttool -b EC:E3:34:1C:0D:D2 -a 0x46 --char-write-req -n 69 --listen
 Characteristic value was written successfully
 Notification handle = 0x0046 value: 55 20 6e 6f 20 77 61 6e 74 20 74 68 69 73 20 6d 73 67 00 00 
 Notification handle = 0x0046 value: 63 39 34 35 37 64 65 35 66 64 38 63 61 66 65 33 34 39 66 64 
-Notification handle = 0x0046 value: 63 39 34 35 37 64 65 35 66 64 38 63 61 66 65 33 34 39 66 64 
-Notification handle = 0x0046 value: 63 39 34 35 37 64 65 35 66 64 38 63 61 66 65 33 34 39 66 64 
-...
 55 20 6e 6f 20 77 61 6e 74 20 74 68 69 73 20 6d 73 67 00 00 63 39 34 35 37 64 65 35 66 64 38 63 61 66 65 33 34 39 66 64 --> U no want this msgc9457de5fd8cafe349fd
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "c9457de5fd8cafe349fd"|xxd -ps)
 
@@ -125,11 +99,6 @@ gatttool -b EC:E3:34:1C:0D:D2 -a 0x004a --char-write-req -n 69 --listen
 Characteristic value was written successfully
 Indication   handle = 0x004a value: 55 20 6e 6f 20 77 61 6e 74 20 74 68 69 73 20 6d 73 67 00 00 
 Indication   handle = 0x004a value: 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 
-Indication   handle = 0x004a value: 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 
-Indication   handle = 0x004a value: 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 
-Indication   handle = 0x004a value: 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 
-Indication   handle = 0x004a value: 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 
-....
 55 20 6e 6f 20 77 61 6e 74 20 74 68 69 73 20 6d 73 67 00 00 62 36 66 33 61 34 37 66 32 30 37 64 33 38 65 31 36 66 66 61 --> U no want this msgb6f3a47f207d38e16ffa
 gatttool -b EC:E3:34:1C:0D:D2 --char-write-req -a 0x002c -n $(echo -n "b6f3a47f207d38e16ffa"|xxd -ps)
 
