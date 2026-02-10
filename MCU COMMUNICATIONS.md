@@ -145,3 +145,86 @@ D9 to D9 of slave 2 (SS)
 D10 to D10 of slave 1 (SS)
 5V to VIN
 GND to GND
+#include <SPI.h>
+
+#define CS1 10   // Slave 1
+#define CS2 9    // Slave 2
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(CS1, OUTPUT);
+  pinMode(CS2, OUTPUT);
+
+  digitalWrite(CS1, HIGH);
+  digitalWrite(CS2, HIGH);
+
+  SPI.begin();   // Master mode
+}
+
+void loop() {
+ // Talk to SLAVE 1
+  digitalWrite(CS1, LOW);
+  byte r1 = SPI.transfer(11);
+  digitalWrite(CS1, HIGH);
+
+  Serial.print("Slave 1 replied: ");
+  Serial.println(r1);
+
+  delay(1000);
+
+  // Talk to SLAVE 2
+  digitalWrite(CS2, LOW);
+  byte r2 = SPI.transfer(15);
+  digitalWrite(CS2, HIGH);
+
+  Serial.print("Slave 2 replied: ");
+  Serial.println(r2);
+
+  delay(2000);
+}
+
+SLAVE1 CODE:
+#include <SPI.h>
+
+volatile byte received;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(MISO, OUTPUT);
+  SPCR |= _BV(SPE);       // Enable SPI
+  SPI.attachInterrupt();
+}
+
+ISR (SPI_STC_vect) {
+  received = SPDR;
+  SPDR = received + 1;   // Reply
+}
+
+void loop() {
+  Serial.print("Slave 1 got: ");
+  Serial.println(received);
+  delay(500);
+}
+
+SLAVE2 CODE:
+#include <SPI.h>
+
+volatile byte received;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(MISO, OUTPUT);
+  SPCR |= _BV(SPE);
+  SPI.attachInterrupt();
+}
+
+ISR (SPI_STC_vect) {
+  received = SPDR;
+  SPDR = received + 2;   // Different reply
+}
+void loop() {
+  Serial.print("Slave 2 got: ");
+  Serial.println(received);
+  delay(500);
+}
